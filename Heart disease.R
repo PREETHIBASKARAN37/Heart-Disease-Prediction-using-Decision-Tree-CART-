@@ -15,48 +15,6 @@ heart <- read.csv("C:/Users/preethi/Downloads/heart.csv")
 # Convert target variable
 heart$target <- as.factor(heart$target)
 
-# Train-test split
-set.seed(123)
-trainIndex <- createDataPartition(heart$target, p = 0.8, list = FALSE)
-trainData <- heart[trainIndex, ]
-testData <- heart[-trainIndex, ]
-
-# Train CART model
-cart_model <- rpart(target ~ ., data = trainData, method = "class")
-
-# Visualize the decision tree
-rpart.plot(cart_model, extra = 106, main = "Decision Tree for Heart Disease Prediction")
-# Predictions and confusion matrix
-predictions <- predict(cart_model, newdata = testData, type = "class")
-conf_matrix <- confusionMatrix(predictions, testData$target)
-print(conf_matrix)
-
-# Confusion Matrix Visualization
-cm <- table(Predicted = predictions, Actual = testData$target)
-cm_melted <- melt(cm)
-ggplot(cm_melted, aes(x = Actual, y = Predicted, fill = value)) +
-  geom_tile(color = "white") +
-  geom_text(aes(label = value), size = 5, color = "white") +
-  scale_fill_gradient(low = "lightgreen", high = "darkgreen") +
-  ggtitle("Confusion Matrix: Heart Disease Prediction")
-
-
-# Install necessary packages
-install.packages(c("tidyverse", "caret", "rpart", "rpart.plot", "reshape2"))
-
-# Load libraries
-library(tidyverse)
-library(caret)
-library(rpart)
-library(rpart.plot)
-library(reshape2)
-
-# Load dataset
-heart <- read.csv("C:/Users/preethi/Downloads/heart.csv")
-
-# Convert target variable
-heart$target <- as.factor(heart$target)
-
 # Set seed for reproducibility
 set.seed(123)
 
